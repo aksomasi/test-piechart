@@ -1,0 +1,208 @@
+import { Component } from '@angular/core';
+
+@Component({
+  selector: 'app-root',
+  templateUrl: './app.component.html',
+})
+export class AppComponent {
+  data: any;
+  DEFAULT_COLORS = [
+    '#3B3EAC',
+    '#0099C6',
+    '#DD4477',
+    '#66AA00',
+    '#B82E2E',
+    '#3366CC',
+    '#316395',
+    '#994499',
+    '#109618',
+    '#990099',
+    '#22AA99',
+    '#AAAA11',
+    '#6633CC',
+    '#DC3912',
+    '#FF9900',
+    '#E67300',
+    '#8B0707',
+    '#329262',
+    '#5574A6',
+    '#3B3EAC',
+  ];
+  private demoData = [
+    {
+      DIS_NAME: 'New Jersey',
+      DEV_PROD: 'PROD',
+      DIST: 60,
+      ITEM: 'SBRTP',
+      TAG: '474764',
+      ACTION: 'Print 1',
+      SPLIT_QTY: null,
+      SPLIT_PCS: null,
+      SPLIT_UOM: null,
+      LENGTH: null,
+      MIN_LENGTH: null,
+      MAX_LENGTH: null,
+      WIDTH: null,
+      PIECES: null,
+      LOCATION: null,
+      UPDATE_USER: '8645',
+      EMPName: 'Bruce Orrantia',
+      UPDATE_DATE: '2022-07-27T08:05:16.013Z',
+      Printer: 'PR626',
+    },
+    {
+      DIS_NAME: 'New Jersey',
+      DEV_PROD: 'PROD',
+      DIST: 60,
+      ITEM: 'SBRTP',
+      TAG: '474764',
+      ACTION: 'Print 3',
+      SPLIT_QTY: null,
+      SPLIT_PCS: null,
+      SPLIT_UOM: null,
+      LENGTH: null,
+      MIN_LENGTH: null,
+      MAX_LENGTH: null,
+      WIDTH: null,
+      PIECES: null,
+      LOCATION: null,
+      UPDATE_USER: '8645',
+      EMPName: 'Bruce Orrantia',
+      UPDATE_DATE: '2022-07-27T08:05:16.013Z',
+      Printer: 'PR626',
+    },
+    {
+      DIS_NAME: 'New Jersey',
+      DEV_PROD: 'PROD',
+      DIST: 60,
+      ITEM: 'SBRTP',
+      TAG: '474764',
+      ACTION: 'Print 3',
+      SPLIT_QTY: null,
+      SPLIT_PCS: null,
+      SPLIT_UOM: null,
+      LENGTH: null,
+      MIN_LENGTH: null,
+      MAX_LENGTH: null,
+      WIDTH: null,
+      PIECES: null,
+      LOCATION: null,
+      UPDATE_USER: '8645',
+      EMPName: 'Bruce Orrantia',
+      UPDATE_DATE: '2022-07-27T08:05:16.013Z',
+      Printer: 'PR626',
+    },
+    {
+      DIS_NAME: 'New Jersey',
+      DEV_PROD: 'PROD',
+      DIST: 60,
+      ITEM: 'SBRTP',
+      TAG: '474764',
+      ACTION: 'Status',
+      SPLIT_QTY: null,
+      SPLIT_PCS: null,
+      SPLIT_UOM: null,
+      LENGTH: null,
+      MIN_LENGTH: null,
+      MAX_LENGTH: null,
+      WIDTH: null,
+      PIECES: null,
+      LOCATION: null,
+      UPDATE_USER: '8645',
+      EMPName: 'Bruce Orrantia',
+      UPDATE_DATE: '2022-07-27T08:05:16.013Z',
+      Printer: 'PR626',
+    },
+    {
+      DIS_NAME: 'New Jersey',
+      DEV_PROD: 'PROD',
+      DIST: 60,
+      ITEM: 'SBRTP',
+      TAG: '474764',
+      ACTION: 'PRINTER',
+      SPLIT_QTY: null,
+      SPLIT_PCS: null,
+      SPLIT_UOM: null,
+      LENGTH: null,
+      MIN_LENGTH: null,
+      MAX_LENGTH: null,
+      WIDTH: null,
+      PIECES: null,
+      LOCATION: null,
+      UPDATE_USER: '8645',
+      EMPName: 'Bruce Orrantia',
+      UPDATE_DATE: '2022-07-27T08:05:16.013Z',
+      Printer: 'PR626',
+    },
+    {
+      DIS_NAME: 'New Jersey',
+      DEV_PROD: 'PROD',
+      DIST: 60,
+      ITEM: 'SBRTP',
+      TAG: '474764',
+      ACTION: 'PRINTER',
+      SPLIT_QTY: null,
+      SPLIT_PCS: null,
+      SPLIT_UOM: null,
+      LENGTH: null,
+      MIN_LENGTH: null,
+      MAX_LENGTH: null,
+      WIDTH: null,
+      PIECES: null,
+      LOCATION: null,
+      UPDATE_USER: '8645',
+      EMPName: 'Bruce Orrantia',
+      UPDATE_DATE: '2022-07-27T08:05:16.013Z',
+      Printer: 'PR626',
+    },
+  ];
+
+  pieData: any[];
+  pieLabels: any[];
+  pieColors: any[];
+  selectData(event) {
+    console.log('Selected Data ', this.pieLabels[event.element.index]);
+  }
+  constructor() {
+    console.log(
+      'total Data for Pie Chart',
+      this.mapToProp(this.demoData, 'ACTION')
+    );
+    this.pieData = Object.values(this.mapToProp(this.demoData, 'ACTION'));
+    console.log('Pie Chart count (count for actions)', this.pieData);
+    this.pieLabels = Object.keys(this.mapToProp(this.demoData, 'ACTION'));
+    console.log('labels ', this.pieLabels);
+    this.pieColors = this.configureDefaultColors(this.pieData);
+    console.log('dynamic colors', this.pieColors);
+    this.data = {
+      labels: this.pieLabels,
+      datasets: [
+        {
+          data: this.pieData,
+          backgroundColor: this.DEFAULT_COLORS,
+        },
+      ],
+    };
+  }
+  private configureDefaultColors(data: number[]): string[] {
+    let customColours = [];
+    if (data.length) {
+      customColours = data.map((element, idx) => {
+        return this.DEFAULT_COLORS[idx % this.DEFAULT_COLORS.length];
+      });
+    }
+    return customColours;
+  }
+
+  mapToProp(data, prop) {
+    return data.reduce(
+      (res, item) =>
+        Object.assign(res, {
+          [item[prop]]: 1 + (res[item[prop]] || 0),
+        }),
+      Object.create(null)
+    );
+  }
+}
+
+<p-chart type="pie" [data]="data" (onDataSelect)="selectData($event)"></p-chart>
